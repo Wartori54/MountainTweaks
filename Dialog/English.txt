@@ -1,0 +1,19 @@
+MODNAME_MOUNTAINTWEAKS= Mountain Tweaks
+MODOPTIONS_MOUNTAINTWEAKS_TITLE= Mountain Tweaks
+
+MODOPTIONS_MOUNTAINTWEAKS_RESTART_DBB= If set to ON, game restart is required to enable this feature!
+MODOPTIONS_MOUNTAINTWEAKS_GLOBAL_DBB_DESC= Enables the hooks for the option down below.
+
+MODOPTIONS_MOUNTAINTWEAKS_DoNotLoseFullscreen_GLOBAL= Do Not Lose Fullscreen (X11) Hook
+MODOPTIONS_MOUNTAINTWEAKS_DoNotLoseFullscreen= Do Not Lose Fullscreen (X11)
+MODOPTIONS_MOUNTAINTWEAKS_DoNotLoseFullscreen_DESC= On X11 the game will lose fullscreen when it loses focus, enabling this forces fullscreen to remain enabled.
+
+
+MODOPTIONS_MOUNTAINTWEAKS_DumpDMDs_GLOBAL= Dump DMDs Hook
+MODOPTIONS_MOUNTAINTWEAKS_DumpDMDs= Dump DMDs
+MODOPTIONS_MOUNTAINTWEAKS_DumpDMDs_DESC= Dumps all the DynamicMethodDefinitions that get compiled.
+                                         The output can be found in GeneratedDMDs in the game's files.
+
+MODOPTIONS_MOUNTAINTWEAKS_DisableInliningPushSprite= Disable Inlining of PushSprite
+MODOPTIONS_MOUNTAINTWEAKS_DisableInliningPushSpriteEnabled_DESC= Makes the method called PushSprite from SpriteBatch uneligible for inlining.
+                                                                 A restart is required to enable or disable this.
