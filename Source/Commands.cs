@@ -1,3 +1,4 @@
+using System;
 using Monocle;
 
 namespace Celeste.Mod.MountainTweaks;
@@ -5,7 +6,13 @@ namespace Celeste.Mod.MountainTweaks;
 public static class Commands {
     [Command("mt_hook_prof_start", "")]
     public static void HookProfStart() {
-        HookOverheadProfiler.Instance.Start();
+        try {
+            HookOverheadProfiler.Instance.Start();
+        }
+        catch (Exception ex) {
+            Logger.LogDetailed(ex);
+            throw;
+        }
     }
 
     [Command("mt_hook_prof_stop", "")]

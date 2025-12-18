@@ -84,7 +84,13 @@ public class HookOverheadProfiler {
             cursor.EmitRet();
         });
         MethodInfo srDmd = dmd.Generate();
-        profilerHooks.Add(new Hook(method, srDmd, new DetourConfig("HookOverheadProfiler", int.MaxValue), false));
+        try {
+            profilerHooks.Add(new Hook(method, srDmd, new DetourConfig("HookOverheadProfiler", int.MaxValue), false));
+        } catch (Exception ex) {
+            Logger.Error(nameof(HookOverheadProfiler), $"Failed to hook method {method.DeclaringType?.FullName ?? "(Unknown decl type)"}.{method.Name}({string.Join(",", method.GetParameters().Select(x => x.ToString()))})");
+            Logger.Error(nameof(HookOverheadProfiler), $"Using hook method {srDmd.DeclaringType?.FullName ?? "(Unknown decl type)"}.{srDmd.Name}({string.Join(",", srDmd.GetParameters().Select(x => x.ToString()))})");
+            Logger.LogDetailed(ex);
+        }
     }
 
     public void Stop() {
@@ -119,7 +125,12 @@ public class HookOverheadProfiler {
         ParameterInfo[] parameters = method.GetParameters();
         List<Type> parameterTypes = parameters.Select(p => p.ParameterType).ToList();
         if (!method.IsStatic) {
-            parameterTypes.Insert(0, method.DeclaringType ?? throw new NotSupportedException("Can't hook method with no declaring type"));
+            if (method.DeclaringType == null) {
+                throw new NotSupportedException("Can't hook method with no declaring type");
+            }
+            // Value types have its instance passed by ref
+            Type selfType = method.DeclaringType.IsValueType ? method.DeclaringType.MakeByRefType() : method.DeclaringType;
+            parameterTypes.Insert(0, selfType);
         }
         Type returnType = SafeGetReturnType(method);
         Promise<Type> delegateType = GenerateDelegateTypeFor(returnType, parameterTypes);
